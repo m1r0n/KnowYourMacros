@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/gender"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/age"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/activity_level"
+        android:summary="@string/activity_level_summary"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/height"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/weight"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/fat"
+        android:summary="@string/optional_field"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/method"
+        android:summary="@string/method_summary"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/phase"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/diet"
+        android:widgetLayout="@layout/custom_checkbox" />
+
+
+
+</PreferenceScreen>

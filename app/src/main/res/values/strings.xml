@@ -6,4 +6,19 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="height">Height</string>
+    <string name="activity_level">Activity level</string>
+    <string name="weight">Weight</string>
+    <string name="fat">Fat %</string>
+    <string name="method">Method</string>
+    <string name="phase">Phase</string>
+    <string name="diet">Diet type</string>
+
+    <string name="activity_level_summary">How do you rank your daily activity level</string>
+    <string name="optional_field">Optional</string>
+    <string name="method_summary">Used to calculate TDEE (optional)</string>
+
 </resources>
