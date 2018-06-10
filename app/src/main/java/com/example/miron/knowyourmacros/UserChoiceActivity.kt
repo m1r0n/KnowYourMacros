@@ -1,5 +1,6 @@
 package com.example.miron.knowyourmacros
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.preference.PreferenceActivity
 
@@ -8,6 +9,7 @@ import android.preference.PreferenceFragment
 
 
 
+@SuppressLint("ExportedPreferenceActivity")
 class UserChoiceActivity : PreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
