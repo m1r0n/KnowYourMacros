@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 
 import android.preference.PreferenceFragment
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ListView
-
 
 @SuppressLint("ExportedPreferenceActivity")
 class UserChoiceActivity : AppCompatPreferenceActivity() {
