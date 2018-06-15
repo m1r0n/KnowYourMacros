@@ -1,6 +1,8 @@
 package com.example.miron.knowyourmacros
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.preference.Preference
 
@@ -37,7 +39,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
             when(preference?.key) {
-                "genderPreference" -> Log.i("DATADATA", "G")
+                "genderPreference" -> startNominalActivity()
                 "agePreference" -> Log.i("DATADATA", "A")
                 "activityLevelPreference" -> Log.i("DATADATA", "Ac")
                 "heightPreference" ->Log.i("DATADATA", "H")
@@ -49,6 +51,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             }
             return super.onPreferenceTreeClick(preferenceScreen, preference)
         }
+
+        fun startNominalActivity() {
+            startActivity(Intent(activity, NominalChoiceActivity::class.java))
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -56,11 +62,36 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
-
+    fun startNominalActivity(): Intent {
+        val intent = Intent(this, NominalChoiceActivity::class.java)
+        startActivity(intent)
+        return intent
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.navigation, menu)
         return true
+    }
+
+    class IntentStarter {
+
+
+        private var minValue: Int = 0
+        private var maxValue: Int = 0
+        private lateinit var options: Array<String>
+        private lateinit var nameOfToolbarInActivity: String
+
+        constructor(minValue: Int, maxValue: Int, nameOfToolbarInActivity: String) {
+            this.minValue = minValue
+            this.maxValue = maxValue
+            this.nameOfToolbarInActivity = nameOfToolbarInActivity
+        }
+
+        constructor(options: Array<String>, nameOfToolbarInActivity: String) {
+            this.options = options
+            this.nameOfToolbarInActivity = nameOfToolbarInActivity
+        }
+
     }
 
 }
