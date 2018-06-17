@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NominalChoiceActivity"></activity>
+        <activity android:name=".NominalChoiceActivity" />
+        <activity android:name=".NumericalChoiceActivity"></activity>
     </application>
 
 </manifest>

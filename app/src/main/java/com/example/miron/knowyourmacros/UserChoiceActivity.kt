@@ -1,7 +1,7 @@
 package com.example.miron.knowyourmacros
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.preference.Preference
@@ -22,6 +22,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
     }
 
     class MyPreferenceFragment : PreferenceFragment() {
+
+        private val REQUEST_CODE = 200
+
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             if (view != null) {
@@ -40,7 +43,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
             when(preference?.key) {
                 "genderPreference" -> startNominalActivity()
-                "agePreference" -> Log.i("DATADATA", "A")
+                "agePreference" -> startAgePreferenceActivity()
                 "activityLevelPreference" -> Log.i("DATADATA", "Ac")
                 "heightPreference" ->Log.i("DATADATA", "H")
                 "weightPreference" ->Log.i("DATADATA", "W")
@@ -52,8 +55,26 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             return super.onPreferenceTreeClick(preferenceScreen, preference)
         }
 
-        fun startNominalActivity() {
-            startActivity(Intent(activity, NominalChoiceActivity::class.java))
+        private fun startAgePreferenceActivity() {
+            val intent = Intent(activity, NumericalChoiceActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE)
+        }
+
+        private fun startNominalActivity() {
+            val intent = Intent(activity, NominalChoiceActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE)
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+            super.onActivityResult(requestCode, resultCode, data)
+
+            if (requestCode == REQUEST_CODE) {
+
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.i("DATADATA", "EVERYTHING WORKS")
+
+                }
+            }
         }
     }
 
@@ -62,36 +83,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
-    fun startNominalActivity(): Intent {
-        val intent = Intent(this, NominalChoiceActivity::class.java)
-        startActivity(intent)
-        return intent
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.navigation, menu)
         return true
-    }
-
-    class IntentStarter {
-
-
-        private var minValue: Int = 0
-        private var maxValue: Int = 0
-        private lateinit var options: Array<String>
-        private lateinit var nameOfToolbarInActivity: String
-
-        constructor(minValue: Int, maxValue: Int, nameOfToolbarInActivity: String) {
-            this.minValue = minValue
-            this.maxValue = maxValue
-            this.nameOfToolbarInActivity = nameOfToolbarInActivity
-        }
-
-        constructor(options: Array<String>, nameOfToolbarInActivity: String) {
-            this.options = options
-            this.nameOfToolbarInActivity = nameOfToolbarInActivity
-        }
-
     }
 
 }
