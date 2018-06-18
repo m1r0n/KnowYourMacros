@@ -23,7 +23,7 @@
     <style name="AppTheme.Button">
         <item name="android:background">@drawable/userchoice_button_bg</item>
         <item name="android:height">70sp</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:width">50dp</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">20sp</item>
     </style>
