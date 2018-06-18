@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:top="-1dp" android:right="10dp" android:left="10dp">
+    <item android:top="@dimen/invisible_box_top" android:right="@dimen/fragment_padding" android:left="@dimen/fragment_padding">
         <shape>
             <stroke
-                android:width="1px"
-                android:color="@color/colorPrimary" />
+                android:width="@dimen/button_separator_width"
+                android:color="@color/colorLineSeparator" />
         </shape>
     </item>
-    <item android:top="-1dp" android:bottom="-1dp" android:right="10dp" android:left="10dp">
+    <item android:top="@dimen/invisible_box_top" android:bottom="@dimen/invisible_box_bottom" android:right="@dimen/fragment_padding" android:left="@dimen/fragment_padding">
         <shape>
             <stroke
-                android:width="3px"
+                android:width="@dimen/invisible_box_width"
                 android:color="@color/colorWindowBackground" />
         </shape>
     </item>

@@ -6,4 +6,10 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="fragment_padding">10dp</dimen>
+
+    <!-- Used for userchoice button. -->
+    <dimen name="button_separator_width">3px</dimen>
+    <dimen name="invisible_box_width">5px</dimen>
+    <dimen name="invisible_box_top">-1dp</dimen>
+    <dimen name="invisible_box_bottom">-3dp</dimen>
 </resources>
