@@ -17,7 +17,7 @@ class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         scrollView = ScrollView(this)
         scrollView.setBackgroundColor(resources.getColor(R.color.colorWindowBackground, this.theme))
 
@@ -48,12 +48,13 @@ class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  {
     }
 
     private fun createButtonWithID(buttonID: Int): Button {
-        val button = Button(this)
+        val button = layoutInflater.inflate(R.layout.userchoice_button_style, null) as Button
         button.id = buttonID
         button.setAllCaps(false)
         button.setOnClickListener(this)
         button.tag = buttonID
         button.text = buttonID.toString()
+
         return button
     }
 }

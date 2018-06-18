@@ -71,7 +71,8 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             if (requestCode == REQUEST_CODE) {
 
                 if (resultCode == Activity.RESULT_OK) {
-                    Log.i("DATADATA", "EVERYTHING WORKS")
+
+                    Log.i("DATADATA", (data.getIntExtra("User_Choice_Id", -1)).toString())
 
                 }
             }
