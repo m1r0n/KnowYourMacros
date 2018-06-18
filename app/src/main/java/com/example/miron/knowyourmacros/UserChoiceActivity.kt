@@ -27,11 +27,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-            if (view != null) {
-                val listView = view.findViewById(android.R.id.list) as ListView
-                val padding = resources.getDimension(R.dimen.fragment_padding).toInt()
-                listView.setPadding(padding,0,padding,0)
-            }
+            addPaddingToView(resources.getDimension(R.dimen.fragment_padding).toInt())
             return view
         }
 
@@ -75,6 +71,13 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                     Log.i("DATADATA", (data.getIntExtra("User_Choice_Id", -1)).toString())
 
                 }
+            }
+        }
+
+        private fun addPaddingToView(padding: Int) {
+            if (view != null) {
+                val listView = view.findViewById(android.R.id.list) as ListView
+                listView.setPadding(padding,0,padding,0)
             }
         }
     }

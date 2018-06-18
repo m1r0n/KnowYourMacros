@@ -9,29 +9,26 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 
-class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  {
+open class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  {
 
     private lateinit var scrollView: ScrollView
+    private lateinit var mainLayout: LinearLayout
     private var minValue: Int = 10
     private var maxValue: Int = 50
+    private val pageTitle: String = "Age"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        mainLayout = LinearLayout(this)
         scrollView = ScrollView(this)
-        scrollView.setBackgroundColor(resources.getColor(R.color.colorWindowBackground, this.theme))
+        title = pageTitle
 
-        val mainLayout = LinearLayout(this)
-        mainLayout.orientation = LinearLayout.VERTICAL
-
-
-        (minValue until maxValue)
-                .map { createButtonWithID(it) }
-                .forEach { mainLayout.addView(it) }
+        addScrollViewBackGroundColor()
+        setMainLayoutOrientationToVertical()
+        addButtonsToMainLayout()
 
         scrollView.addView(mainLayout)
         setContentView(scrollView)
-        title = "SOMETHING"
     }
 
     override fun onClick(view: View) {
@@ -45,6 +42,20 @@ class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  {
         val intent = Intent()
         setResult(Activity.RESULT_CANCELED, intent)
         finish()
+    }
+
+    private fun addScrollViewBackGroundColor() {
+        scrollView.setBackgroundColor(resources.getColor(R.color.colorWindowBackground, this.theme))
+    }
+
+    private fun setMainLayoutOrientationToVertical() {
+        mainLayout.orientation = LinearLayout.VERTICAL
+    }
+
+    private fun addButtonsToMainLayout() {
+        (minValue until maxValue)
+                .map { createButtonWithID(it) }
+                .forEach { mainLayout.addView(it) }
     }
 
     private fun createButtonWithID(buttonID: Int): Button {

@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NominalChoiceActivity" />
-        <activity android:name=".NumericalChoiceActivity"></activity>
+        <activity android:name=".NumericalChoiceActivity" />
     </application>
 
 </manifest>
