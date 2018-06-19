@@ -17,7 +17,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentManager.beginTransaction().replace(android.R.id.content, MyPreferenceFragment()).commit()
+        setupFragmentManager()
         setupActionBar()
     }
 
@@ -43,9 +43,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 "genderPreference" -> startNominalActivity()
                 "agePreference" -> askForNumericPreference(Range(10,70), "Age")
                 "activityLevelPreference" -> Log.i("DATADATA", "Ac")
-                "heightPreference" ->Log.i("DATADATA", "H")
-                "weightPreference" ->Log.i("DATADATA", "W")
-                "fatPreference" ->Log.i("DATADATA", "Fat")
+                "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
+                "weightPreference" -> askForNumericPreference(Range(40,160), "Weight")
+                "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
                 "methodPreference" ->Log.i("DATADATA", "M")
                 "phasePreference" ->Log.i("DATADATA", "Pha")
                 "dietPreference" ->Log.i("DATADATA", "Die")
@@ -86,7 +86,8 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         }
 
         private fun updateFragmentPage() {
-            fragmentManager.beginTransaction().detach(this).attach(this).commit()        }
+            fragmentManager.beginTransaction().detach(this).attach(this).commit()
+        }
 
         private fun updateUserPreferenceValue(value: Int) {
             userPreferences.put(currentPreference.key, value)
@@ -98,6 +99,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 listView.setPadding(padding,0,padding,0)
             }
         }
+    }
+
+    private fun setupFragmentManager() {
+        fragmentManager.beginTransaction().replace(android.R.id.content, MyPreferenceFragment()).commit()
     }
 
     @SuppressLint("InflateParams")
