@@ -39,7 +39,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
             when(preference?.key) {
                 "genderPreference" -> startNominalActivity()
-                "agePreference" -> startAgePreferenceActivity()
+                "agePreference" -> askForNumericPreference(Range(10,70), "Age")
                 "activityLevelPreference" -> Log.i("DATADATA", "Ac")
                 "heightPreference" ->Log.i("DATADATA", "H")
                 "weightPreference" ->Log.i("DATADATA", "W")
@@ -51,8 +51,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             return super.onPreferenceTreeClick(preferenceScreen, preference)
         }
 
-        private fun startAgePreferenceActivity() {
+        private fun askForNumericPreference(range: Range, name: String) {
             val intent = Intent(activity, NumericalChoiceActivity::class.java)
+            intent.putExtra("range", range)
+            intent.putExtra("name", name)
             startActivityForResult(intent, REQUEST_CODE)
         }
 

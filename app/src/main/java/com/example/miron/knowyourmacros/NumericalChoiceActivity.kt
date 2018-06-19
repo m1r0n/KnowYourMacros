@@ -13,19 +13,19 @@ open class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  
 
     private lateinit var scrollView: ScrollView
     private lateinit var mainLayout: LinearLayout
-    private var minValue: Int = 10
-    private var maxValue: Int = 50
-    private val pageTitle: String = "Age"
+    private lateinit var range: Range
+    private lateinit var pageTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainLayout = LinearLayout(this)
         scrollView = ScrollView(this)
-        title = pageTitle
 
+        initializeValuesFromIntent()
         addScrollViewBackGroundColor()
         setMainLayoutOrientationToVertical()
         addButtonsToMainLayout()
+        setAppBarTitle()
 
         scrollView.addView(mainLayout)
         setContentView(scrollView)
@@ -53,9 +53,19 @@ open class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  
     }
 
     private fun addButtonsToMainLayout() {
-        (minValue until maxValue)
+        (range.min until range.max)
                 .map { createButtonWithID(it) }
                 .forEach { mainLayout.addView(it) }
+    }
+
+    private fun initializeValuesFromIntent() {
+        val intent = intent
+        range = intent.extras.getSerializable("range") as Range
+        pageTitle = intent.getStringExtra("name")
+    }
+
+    private fun setAppBarTitle() {
+        title = pageTitle
     }
 
     private fun createButtonWithID(buttonID: Int): Button {
