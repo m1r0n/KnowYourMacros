@@ -8,10 +8,10 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.util.Log
 import android.view.*
 import android.widget.ListView
 import java.util.*
+
 
 @SuppressLint("ExportedPreferenceActivity")
 class UserChoiceActivity : AppCompatPreferenceActivity() {
@@ -41,15 +41,15 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
             when(preference?.key) {
-                "genderPreference" -> startNominalActivity()
+                "genderPreference" -> askForNominalPreference(Values.genders, "Gender")
                 "agePreference" -> askForNumericPreference(Range(10,70), "Age")
-                "activityLevelPreference" -> Log.i("DATADATA", "Ac")
+                "activityLevelPreference" -> askForNominalPreference(Values.activityLevels, "Activity Level")
                 "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
                 "weightPreference" -> askForNumericPreference(Range(40,160), "Weight")
                 "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
-                "methodPreference" ->Log.i("DATADATA", "M")
-                "phasePreference" ->Log.i("DATADATA", "Pha")
-                "dietPreference" ->Log.i("DATADATA", "Die")
+                "methodPreference" -> askForNominalPreference(Values.bmrTypes, "Method")
+                "phasePreference" -> askForNominalPreference(Values.phases, "Phase")
+                "dietPreference" -> askForNominalPreference(Values.dietTypes, "Diet")
             }
             currentPreference = preference!!
             return super.onPreferenceTreeClick(preferenceScreen, preference)
@@ -62,11 +62,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             startActivityForResult(intent, REQUEST_CODE)
         }
 
-        private fun startNominalActivity() {
+        private fun askForNominalPreference(options: Array<String>, name: String) {
             val intent = Intent(activity, NominalChoiceActivity::class.java)
-            val options = arrayOf("One", "Two", "Three")
             intent.putExtra("options", options)
-            intent.putExtra("name", "Gender")
+            intent.putExtra("name", name)
             startActivityForResult(intent, REQUEST_CODE)
         }
 
