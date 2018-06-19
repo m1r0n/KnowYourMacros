@@ -11,6 +11,7 @@ import android.preference.PreferenceScreen
 import android.util.Log
 import android.view.*
 import android.widget.ListView
+import java.util.*
 
 @SuppressLint("ExportedPreferenceActivity")
 class UserChoiceActivity : AppCompatPreferenceActivity() {
@@ -63,6 +64,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         private fun startNominalActivity() {
             val intent = Intent(activity, NominalChoiceActivity::class.java)
+            val options = arrayOf("One", "Two", "Three")
+            intent.putExtra("options", options)
+            intent.putExtra("name", "Gender")
             startActivityForResult(intent, REQUEST_CODE)
         }
 
@@ -90,7 +94,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         }
 
         private fun updateUserPreferenceValue(value: Int) {
-            userPreferences.put(currentPreference.key, value)
+            userPreferences[currentPreference.key] = value
         }
 
         private fun addPaddingToView(padding: Int) {
