@@ -7,14 +7,14 @@
         android:key="genderPreference"
         android:defaultValue="false"
         android:title="@string/gender"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/agePreference"
         android:key="agePreference"
         android:defaultValue="false"
         android:title="@string/age"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/activityLevelPreference"
@@ -22,21 +22,21 @@
         android:defaultValue="false"
         android:title="@string/activity_level"
         android:summary="@string/activity_level_summary"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/heightPreference"
         android:key="heightPreference"
         android:defaultValue="false"
         android:title="@string/height"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/weightPreference"
         android:key="weightPreference"
         android:defaultValue="false"
         android:title="@string/weight"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/fatPreference"
@@ -44,7 +44,7 @@
         android:defaultValue="false"
         android:title="@string/fat"
         android:summary="@string/optional_field"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/methodPreference"
@@ -52,21 +52,21 @@
         android:defaultValue="false"
         android:title="@string/method"
         android:summary="@string/method_summary"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/phasePreference"
         android:key="phasePreference"
         android:defaultValue="false"
         android:title="@string/phase"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
         android:id="@+id/dietPreference"
         android:key="dietPreference"
         android:defaultValue="false"
         android:title="@string/diet"
-        android:widgetLayout="@layout/custom_checkbox" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
 
 

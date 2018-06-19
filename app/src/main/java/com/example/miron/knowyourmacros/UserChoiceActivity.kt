@@ -24,6 +24,8 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
     class MyPreferenceFragment : PreferenceFragment() {
 
         private val REQUEST_CODE = 200
+        private var userPreferences: HashMap<String, Int> = HashMap()
+        private lateinit var currentPreference: Preference
 
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -48,6 +50,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 "phasePreference" ->Log.i("DATADATA", "Pha")
                 "dietPreference" ->Log.i("DATADATA", "Die")
             }
+            currentPreference = preference!!
             return super.onPreferenceTreeClick(preferenceScreen, preference)
         }
 
@@ -69,11 +72,24 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             if (requestCode == REQUEST_CODE) {
 
                 if (resultCode == Activity.RESULT_OK) {
-
-                    Log.i("DATADATA", (data.getIntExtra("User_Choice_Id", -1)).toString())
-
+                    val userChoice: Int = data.getIntExtra("User_Choice", 0)
+                    updateUserPreferenceValue(userChoice)
+                    updateCurrentPreference(userChoice)
+                    updateFragmentPage()
                 }
             }
+        }
+
+        private fun updateCurrentPreference(userChoice: Int) {
+            currentPreference.summary = userChoice.toString()
+            currentPreference.widgetLayoutResource = R.layout.custom_checkbox_checked
+        }
+
+        private fun updateFragmentPage() {
+            fragmentManager.beginTransaction().detach(this).attach(this).commit()        }
+
+        private fun updateUserPreferenceValue(value: Int) {
+            userPreferences.put(currentPreference.key, value)
         }
 
         private fun addPaddingToView(padding: Int) {

@@ -33,7 +33,7 @@ open class NumericalChoiceActivity : AppCompatActivity(), View.OnClickListener  
 
     override fun onClick(view: View) {
         val intent = Intent()
-        intent.putExtra("User_Choice_Id", view.id)
+        intent.putExtra("User_Choice", view.id)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
