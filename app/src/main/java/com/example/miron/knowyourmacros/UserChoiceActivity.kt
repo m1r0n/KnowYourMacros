@@ -76,15 +76,16 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
                 if (resultCode == Activity.RESULT_OK) {
                     val userChoice: Int = data.getIntExtra("User_Choice", 0)
+                    val userChoiceToDisplay: String = data.getStringExtra("User_Choice_To_Display")
                     updateUserPreferenceValue(userChoice)
-                    updateCurrentPreference(userChoice)
+                    updateCurrentPreferenceSummary(userChoiceToDisplay)
                     updateFragmentPage()
                 }
             }
         }
 
-        private fun updateCurrentPreference(userChoice: Int) {
-            currentPreference.summary = userChoice.toString()
+        private fun updateCurrentPreferenceSummary(userChoice: String) {
+            currentPreference.summary = userChoice
             currentPreference.widgetLayoutResource = R.layout.custom_checkbox_checked
         }
 
