@@ -32,5 +32,7 @@ open class Values {
         val dietTypes: Array<String> = arrayOf(dietLowCarb, dietModerateCarb, dietHighCarb)
 
         val compulsoryFields: Collection<String> = arrayOf("genderPreference", "activityLevelPreference", "dietPreference", "agePreference", "heightPreference", "weightPreference", "phasePreference").toList()
+
+        const val CompulsoryFieldsNotFilledError = "Please fill all compulsory fields!"
     }
 }

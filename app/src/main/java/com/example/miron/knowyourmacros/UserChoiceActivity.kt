@@ -80,7 +80,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
                 if (resultCode == Activity.RESULT_OK) {
                     val userChoice: Answer = data.getSerializableExtra("Answer") as Answer
-                    updateUserPreferenceMap(userChoice)
+                    updateUserPreferencesMap(userChoice)
                     updateCurrentPreferenceSummary(userChoice.value)
                     updateFragmentPage()
                 }
@@ -96,7 +96,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             fragmentManager.beginTransaction().detach(this).attach(this).commit()
         }
 
-        private fun updateUserPreferenceMap(value: Answer) {
+        private fun updateUserPreferencesMap(value: Answer) {
             userPreferences[currentPreference.key] = value
         }
 
@@ -128,7 +128,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
-            if(allDataIsPresent(userPreferences)) {
+            if(allUserPreferencesDataIsPresent(userPreferences)) {
                 Log.i("DATADATA", userPreferences.toString())
                 //TODO: Create API request and open new Activity
             }
@@ -144,13 +144,13 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
     private fun showErrorToast() {
         val context = applicationContext
-        val text = "Please fill all compulsory fields!"
+        val text = Values.CompulsoryFieldsNotFilledError
         val duration = Toast.LENGTH_SHORT
         val toast = Toast.makeText(context, text, duration)
         toast.show()
     }
 
-    private fun allDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
+    private fun allUserPreferencesDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
         return userPreferences.keys.containsAll(Values.compulsoryFields)
     }
 
