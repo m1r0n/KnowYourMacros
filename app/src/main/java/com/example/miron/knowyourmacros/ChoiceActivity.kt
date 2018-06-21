@@ -34,8 +34,8 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         val intent = Intent()
-        intent.putExtra("User_Choice", view.id)
-        intent.putExtra("User_Choice_To_Display", view.id.toString())
+        val answer = Answer(view.id, view.id.toString())
+        intent.putExtra("Answer", answer)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

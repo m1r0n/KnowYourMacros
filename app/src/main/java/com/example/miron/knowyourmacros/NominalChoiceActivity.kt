@@ -27,8 +27,8 @@ class NominalChoiceActivity : ChoiceActivity() {
 
     override fun onClick(view: View) {
         val intent = Intent()
-        intent.putExtra("User_Choice_ID", view.id)
-        intent.putExtra("User_Choice_To_Display", nominalOptions[view.id])
+        val answer = Answer(view.id, nominalOptions[view.id])
+        intent.putExtra("Answer", answer)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

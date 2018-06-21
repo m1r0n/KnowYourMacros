@@ -30,5 +30,7 @@ open class Values {
         val bmrTypes: Array<String> = arrayOf(bmrHarrisBenedict, bmrMifflin, bmrKatch, bmrKatchHybrid, bmrCunningham)
         val phases: Array<String> = arrayOf(phaseLosing, phaseMaintaining, phaseGaining)
         val dietTypes: Array<String> = arrayOf(dietLowCarb, dietModerateCarb, dietHighCarb)
+
+        val compulsoryFields: Collection<String> = arrayOf("genderPreference", "activityLevelPreference", "dietPreference", "agePreference", "heightPreference", "weightPreference", "phasePreference").toList()
     }
 }

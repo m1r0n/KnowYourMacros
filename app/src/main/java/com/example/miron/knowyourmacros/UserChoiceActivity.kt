@@ -8,9 +8,11 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import android.util.Log
 import android.view.*
 import android.widget.ListView
-import java.util.*
+import android.widget.Toast
+import kotlin.collections.HashMap
 
 
 @SuppressLint("ExportedPreferenceActivity")
@@ -25,8 +27,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
     class MyPreferenceFragment : PreferenceFragment() {
 
         private val REQUEST_CODE = 200
-        private var userPreferences: HashMap<String, Int> = HashMap()
         private lateinit var currentPreference: Preference
+        companion object {
+            var userPreferences: HashMap<String, Answer> = HashMap()
+        }
 
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -75,10 +79,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             if (requestCode == REQUEST_CODE) {
 
                 if (resultCode == Activity.RESULT_OK) {
-                    val userChoice: Int = data.getIntExtra("User_Choice", 0)
-                    val userChoiceToDisplay: String = data.getStringExtra("User_Choice_To_Display")
-                    updateUserPreferenceValue(userChoice)
-                    updateCurrentPreferenceSummary(userChoiceToDisplay)
+                    val userChoice: Answer = data.getSerializableExtra("Answer") as Answer
+                    updateUserPreferenceMap(userChoice)
+                    updateCurrentPreferenceSummary(userChoice.value)
                     updateFragmentPage()
                 }
             }
@@ -86,14 +89,14 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         private fun updateCurrentPreferenceSummary(userChoice: String) {
             currentPreference.summary = userChoice
-            currentPreference.widgetLayoutResource = R.layout.custom_checkbox_checked
         }
 
         private fun updateFragmentPage() {
+            currentPreference.widgetLayoutResource = R.layout.custom_checkbox_checked
             fragmentManager.beginTransaction().detach(this).attach(this).commit()
         }
 
-        private fun updateUserPreferenceValue(value: Int) {
+        private fun updateUserPreferenceMap(value: Answer) {
             userPreferences[currentPreference.key] = value
         }
 
@@ -117,6 +120,38 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.navigation, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+
+        if (id == R.id.preferences_done_button) {
+            val userPreferences = MyPreferenceFragment.userPreferences
+            if(allDataIsPresent(userPreferences)) {
+                Log.i("DATADATA", userPreferences.toString())
+                //TODO: Create API request and open new Activity
+            }
+            else {
+                showErrorToast()
+            }
+
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showErrorToast() {
+        val context = applicationContext
+        val text = "Please fill all compulsory fields!"
+        val duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(context, text, duration)
+        toast.show()
+    }
+
+    private fun allDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
+        return userPreferences.keys.containsAll(Values.compulsoryFields)
     }
 
 }
