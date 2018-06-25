@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
+import com.example.miron.knowyourmacros.Values.Companion.api_url
 import kotlin.collections.HashMap
 
 
@@ -47,7 +48,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             when(preference?.key) {
                 "genderPreference" -> askForNominalPreference(Values.genders, "Gender")
                 "agePreference" -> askForNumericPreference(Range(10,70), "Age")
-                "activityLevelPreference" -> askForNominalPreference(Values.activityLevels, "Activity Level")
+                "activityPreference" -> askForNominalPreference(Values.activityLevels, "Activity Level")
                 "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
                 "weightPreference" -> askForNumericPreference(Range(40,160), "Weight")
                 "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
@@ -130,6 +131,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
                 Log.i("DATADATA", userPreferences.toString())
+                val requestMaker: RequestMaker = RequestMaker(api_url, userPreferences)
                 //TODO: Create API request and open new Activity
             }
             else {
