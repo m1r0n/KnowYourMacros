@@ -3,6 +3,7 @@ package com.example.miron.knowyourmacros
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.Preference
 
@@ -13,6 +14,7 @@ import android.view.*
 import android.widget.ListView
 import android.widget.Toast
 import com.example.miron.knowyourmacros.Values.Companion.api_url
+import org.json.JSONObject
 import kotlin.collections.HashMap
 
 
@@ -130,9 +132,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
-                Log.i("DATADATA", userPreferences.toString())
-                val requestMaker: RequestMaker = RequestMaker(api_url, userPreferences)
-                //TODO: Create API request and open new Activity
+                val requestMaker = RequestMaker(api_url, userPreferences)
+                val jsonResponse: JSONObject = requestMaker.execute("").get()
+                Log.i("DATADATA", jsonResponse.toString())
             }
             else {
                 showErrorToast()
