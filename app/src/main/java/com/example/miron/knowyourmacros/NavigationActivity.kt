@@ -1,16 +1,27 @@
 package com.example.miron.knowyourmacros
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
+import java.lang.reflect.Array
+import java.util.*
 
 class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var macroSplit: HashMap<String, Double>
+    private lateinit var pieChart: PieChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +33,40 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        initializeValuesFromIntent()
+        createChart()
 
         nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    private fun createChart() {
+        pieChart = findViewById(R.id.idPieChart)
+        pieChart.holeRadius = 60f
+        pieChart.isRotationEnabled = true
+        addDataSetToChart()
+    }
+
+    private fun addDataSetToChart() {
+        val yEntrys: ArrayList<PieEntry> = ArrayList()
+        val xEntrys: ArrayList<String> = ArrayList()
+
+        for ((key, value) in macroSplit) {
+            xEntrys.add(key)
+            yEntrys.add(PieEntry(value.toFloat()))
+        }
+        val pieDataSet = PieDataSet(yEntrys, "MACROS")
+        pieDataSet.sliceSpace = 2f
+
+        //pieDataSet.colors = Arrays.asList(R.color.colorGraphYellow, R.color.colorPrimaryButton, R.color.textColorPrimary)
+
+        val pieData = PieData(pieDataSet)
+        pieChart.data = pieData
+        pieChart.invalidate()
+    }
+
+    private fun initializeValuesFromIntent() {
+        val intent: Intent = intent
+        macroSplit = intent.getSerializableExtra("macrosplit") as HashMap<String, Double>
     }
 
     override fun onBackPressed() {

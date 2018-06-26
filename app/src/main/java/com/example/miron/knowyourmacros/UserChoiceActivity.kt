@@ -13,7 +13,6 @@ import android.view.*
 import android.widget.ListView
 import android.widget.Toast
 import com.example.miron.knowyourmacros.Values.Companion.api_url
-import org.json.JSONObject
 import kotlin.collections.HashMap
 
 
@@ -131,11 +130,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
-                val apiResponse: HashMap<String, Double> = getJSONResponseFromAPI(userPreferences)
-                Log.i("DATADATA", apiResponse.toString())
-                //val intent = Intent(this, NumericalChoiceActivity::class.java)
-                //intent.putExtra("macrosplit", apiResponse)
-                //startActivity(intent)
+                val apiResponse: HashMap<String, Double> = getResponseFromAPI(userPreferences)
+                val intent = Intent(this, NavigationActivity::class.java)
+                intent.putExtra("macrosplit", apiResponse)
+                startActivity(intent)
             }
             else {
                 showErrorToast()
@@ -147,7 +145,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getJSONResponseFromAPI(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
+    private fun getResponseFromAPI(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
         val requestMaker = RequestMaker(api_url, userPreferences)
         return requestMaker.execute("").get()
     }
