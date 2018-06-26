@@ -3,7 +3,6 @@ package com.example.miron.knowyourmacros
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.Preference
 
@@ -132,9 +131,11 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
-                val requestMaker = RequestMaker(api_url, userPreferences)
-                val jsonResponse: JSONObject = requestMaker.execute("").get()
-                Log.i("DATADATA", jsonResponse.toString())
+                val apiResponse: HashMap<String, Double> = getJSONResponseFromAPI(userPreferences)
+                Log.i("DATADATA", apiResponse.toString())
+                //val intent = Intent(this, NumericalChoiceActivity::class.java)
+                //intent.putExtra("macrosplit", apiResponse)
+                //startActivity(intent)
             }
             else {
                 showErrorToast()
@@ -144,6 +145,11 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getJSONResponseFromAPI(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
+        val requestMaker = RequestMaker(api_url, userPreferences)
+        return requestMaker.execute("").get()
     }
 
     private fun showErrorToast() {
