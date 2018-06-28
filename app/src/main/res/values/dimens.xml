@@ -12,4 +12,7 @@
     <dimen name="invisible_box_width">5px</dimen>
     <dimen name="invisible_box_top">-1dp</dimen>
     <dimen name="invisible_box_bottom">-3dp</dimen>
+
+    <dimen name="macrosTextSize">25sp</dimen>
+
 </resources>

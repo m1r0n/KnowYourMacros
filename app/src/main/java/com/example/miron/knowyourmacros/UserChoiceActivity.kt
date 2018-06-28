@@ -8,8 +8,8 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import com.example.miron.knowyourmacros.Values.Companion.api_url
@@ -130,10 +130,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
+                disableDoneButton()
                 val apiResponse: HashMap<String, Double> = getResponseFromAPI(userPreferences)
-                val intent = Intent(this, NavigationActivity::class.java)
-                intent.putExtra("macrosplit", apiResponse)
-                startActivity(intent)
+                showMacroSplitActivity(apiResponse)
             }
             else {
                 showErrorToast()
@@ -143,6 +142,17 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun disableDoneButton() {
+        //val doneButton: Button = findViewById(R.id.preferences_done_button)
+        //doneButton.isEnabled = false
+    }
+
+    private fun showMacroSplitActivity(apiResponse: HashMap<String, Double>) {
+        val intent = Intent(this, NavigationActivity::class.java)
+        intent.putExtra("macrosplit", apiResponse)
+        startActivity(intent)
     }
 
     private fun getResponseFromAPI(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {

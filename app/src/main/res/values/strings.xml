@@ -22,4 +22,8 @@
     <string name="method_summary">Used to calculate TDEE (optional)</string>
     <string name="title_activity_user_choice">UserChoiceActivity</string>
 
+    <string name="proteins">Proteins:</string>
+    <string name="carbs">Carbohydrates:</string>
+    <string name="fats">Fats:</string>
+
 </resources>
