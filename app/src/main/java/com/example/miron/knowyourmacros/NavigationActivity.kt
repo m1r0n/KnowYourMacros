@@ -68,9 +68,9 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         val pieDataSet = PieDataSet(yEntrys, "MACROS")
         pieDataSet.sliceSpace = 2f
         pieDataSet.colors = Arrays.asList(
-                ResourcesCompat.getColor(resources, R.color.colorGraphYellow, null),
-                ResourcesCompat.getColor(resources, R.color.colorPrimaryButton, null),
-                ResourcesCompat.getColor(resources, R.color.textColorPrimary, null))
+                ResourcesCompat.getColor(resources, R.color.colorGraphYellow, null), //carbs
+                ResourcesCompat.getColor(resources, R.color.colorPrimaryButton, null), //fats
+                ResourcesCompat.getColor(resources, R.color.textColorPrimary, null)) //protein
 
         pieDataSet.setDrawValues(false)
         val pieData = PieData(pieDataSet)
