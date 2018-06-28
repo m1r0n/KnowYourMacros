@@ -53,6 +53,7 @@ class RequestMaker (basicURL: String, urlParameters: HashMap<String, Answer>): A
 
     private fun extractMacrosFromJSON(jsonObject: JSONObject): HashMap<String, Double> {
         val result: HashMap<String, Double> = HashMap()
+        result["calories"] = jsonObject.getDouble("calories")
         result["protein"] = jsonObject.getDouble("protein")
         result["carbs"] = jsonObject.getDouble("carbs")
         result["fats"] = jsonObject.getDouble("fats")

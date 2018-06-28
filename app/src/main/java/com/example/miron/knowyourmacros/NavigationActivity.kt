@@ -55,23 +55,27 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun createChart() {
         pieChart = findViewById(R.id.idPieChart)
-        pieChart.holeRadius = 80f
+        pieChart.holeRadius = 90f
         pieChart.isRotationEnabled = true
-        pieChart.setHoleColor(ResourcesCompat.getColor(resources, R.color.colorWindowBackground, null))
+        pieChart.description.isEnabled = false
+
+        addHoleToChart()
+
         addDataSetToChart()
         disableLegend()
         pieChart.invalidate()
     }
 
-    private fun addDataSetToChart() {
-        val yEntrys: ArrayList<PieEntry> = ArrayList()
-        val xEntrys: ArrayList<String> = ArrayList()
+    private fun addHoleToChart() {
+        pieChart.setHoleColor(ResourcesCompat.getColor(resources, R.color.colorWindowBackground, null))
+        pieChart.centerText = (macroSplit["calories"]!!.toInt()).toString() + " kcal"
+        pieChart.setCenterTextColor(ResourcesCompat.getColor(resources, R.color.colorPrimaryButton, null))
+        pieChart.setCenterTextSize(25f)
+    }
 
-        for ((key, value) in macroSplit) {
-            xEntrys.add(key)
-            yEntrys.add(PieEntry(value.toFloat()))
-        }
-        val pieDataSet = PieDataSet(yEntrys, "MACROS")
+    private fun addDataSetToChart() {
+        val yEntries: ArrayList<PieEntry> = createEntries()
+        val pieDataSet = PieDataSet(yEntries, "MACROS")
         pieDataSet.sliceSpace = 2f
         pieDataSet.colors = Arrays.asList(
                 ResourcesCompat.getColor(resources, R.color.colorGraphYellow, null), //carbs
@@ -82,6 +86,14 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         pieDataSet.setDrawValues(false)
         val pieData = PieData(pieDataSet)
         pieChart.data = pieData
+    }
+
+    private fun createEntries(): ArrayList<PieEntry> {
+        val entries: ArrayList<PieEntry> = ArrayList()
+        entries.add(PieEntry(macroSplit["protein"]!!.toFloat()))
+        entries.add(PieEntry(macroSplit["carbs"]!!.toFloat()))
+        entries.add(PieEntry(macroSplit["fats"]!!.toFloat()))
+        return entries
     }
 
     private fun disableLegend() {
@@ -95,6 +107,7 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         //These are some random values
         /*
         macroSplit = HashMap()
+        macroSplit["calories"] = 2450.0
         macroSplit["protein"] = 150.0
         macroSplit["fats"] = 100.0
         macroSplit["carbs"] = 250.0
