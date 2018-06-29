@@ -128,7 +128,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
-                disableDoneButton()
+                disableDoneButton(item)
                 showMacroSplitActivity(userPreferences)
             }
             else {
@@ -147,9 +147,8 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         startActivity(intent)
     }
 
-    private fun disableDoneButton() {
-        //val doneButton: Button = findViewById(R.id.preferences_done_button)
-        //doneButton.isEnabled = false
+    private fun disableDoneButton(item: MenuItem) {
+        item.isEnabled = false
     }
 
     private fun showErrorToast() {

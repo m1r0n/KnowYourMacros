@@ -67,10 +67,17 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun addHoleToChart() {
+        addCustomDrawingToHole()
         pieChart.setHoleColor(ResourcesCompat.getColor(resources, R.color.colorWindowBackground, null))
         pieChart.centerText = (macroSplit["calories"]!!.toInt()).toString() + " kcal"
+        pieChart.setCenterTextOffset(0f, 35f)
         pieChart.setCenterTextColor(ResourcesCompat.getColor(resources, R.color.colorPrimaryButton, null))
         pieChart.setCenterTextSize(25f)
+    }
+
+    private fun addCustomDrawingToHole() {
+        pieChart.renderer = CustomPieChartRenderer(pieChart, pieChart.animator, pieChart.viewPortHandler)
+        //pieChart.invalidate()
     }
 
     private fun addDataSetToChart() {
