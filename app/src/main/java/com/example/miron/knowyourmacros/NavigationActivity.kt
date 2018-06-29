@@ -90,8 +90,8 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun createEntries(): ArrayList<PieEntry> {
         val entries: ArrayList<PieEntry> = ArrayList()
-        entries.add(PieEntry(macroSplit["protein"]!!.toFloat()))
         entries.add(PieEntry(macroSplit["carbs"]!!.toFloat()))
+        entries.add(PieEntry(macroSplit["protein"]!!.toFloat()))
         entries.add(PieEntry(macroSplit["fats"]!!.toFloat()))
         return entries
     }
@@ -103,8 +103,9 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun initializeValuesFromIntent() {
         val intent: Intent = intent
-
-        //These are some random values
+        val preferences: HashMap<String, Answer> = intent.getSerializableExtra("preferences") as HashMap<String, Answer>
+        macroSplit = makeAPIRequest(preferences)
+        //Here are some random values for testing this activity
         /*
         macroSplit = HashMap()
         macroSplit["calories"] = 2450.0
@@ -112,7 +113,11 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         macroSplit["fats"] = 100.0
         macroSplit["carbs"] = 250.0
         */
-        macroSplit = intent.getSerializableExtra("macrosplit") as HashMap<String, Double>
+    }
+
+    private fun makeAPIRequest(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
+        val requestMaker = RequestMaker(Values.api_url, userPreferences)
+        return requestMaker.execute("").get()
     }
 
     override fun onBackPressed() {
