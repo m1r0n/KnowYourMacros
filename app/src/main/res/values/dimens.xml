@@ -13,6 +13,12 @@
     <dimen name="invisible_box_top">-1dp</dimen>
     <dimen name="invisible_box_bottom">-3dp</dimen>
 
+    <!-- Used mainly in navigationActivity -->
     <dimen name="macrosTextSize">25sp</dimen>
+
+    <!-- Used mainly for chart -->
+    <dimen name="pieTextSize" format="float" type="dimen">25.0</dimen>
+    <dimen name="pieHoleRadius" format="float" type="dimen">90.0</dimen>
+    <dimen name="pieCenterTextOffset" format="float" type="dimen">35.0</dimen>
 
 </resources>

@@ -77,12 +77,11 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun addCustomDrawingToHole() {
         pieChart.renderer = CustomPieChartRenderer(pieChart, pieChart.animator, pieChart.viewPortHandler)
-        //pieChart.invalidate()
     }
 
     private fun addDataSetToChart() {
         val yEntries: ArrayList<PieEntry> = createEntries()
-        val pieDataSet = PieDataSet(yEntries, "MACROS")
+        val pieDataSet = PieDataSet(yEntries, "")
         pieDataSet.sliceSpace = 2f
         pieDataSet.colors = Arrays.asList(
                 ResourcesCompat.getColor(resources, R.color.colorGraphYellow, null), //carbs
