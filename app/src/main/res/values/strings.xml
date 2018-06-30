@@ -25,5 +25,7 @@
     <string name="proteins">Proteins:</string>
     <string name="carbs">Carbohydrates:</string>
     <string name="fats">Fats:</string>
+    <string name="nav_macros">Macros</string>
+    <string name="nav_preferences">Preferences</string>
 
 </resources>

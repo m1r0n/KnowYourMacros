@@ -112,6 +112,8 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         val intent: Intent = intent
         val preferences: HashMap<String, Answer> = intent.getSerializableExtra("preferences") as HashMap<String, Answer>
         macroSplit = makeAPIRequest(preferences)
+
+
         //Here are some random values for testing this activity
         /*
         macroSplit = HashMap()
@@ -157,22 +159,10 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.macros -> {
                 // Handle the camera action
             }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
+            R.id.preferences -> {
 
             }
         }
