@@ -36,6 +36,7 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
         initializeValuesFromIntent()
         createChart()
         initializeTextViews()
@@ -137,6 +138,9 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.navigation, menu)
+        val doneButton: MenuItem = menu.findItem(R.id.preferences_done_button)
+        doneButton.isVisible = false
+
         return true
     }
 
