@@ -71,8 +71,13 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
         button.setOnClickListener(this)
         button.tag = buttonID
         button.text = generateButtonText(buttonID)
+        button.isEnabled = buttonCanBeClicked(buttonID)
 
         return button
+    }
+
+    open fun buttonCanBeClicked(buttonID: Int): Boolean {
+        return true
     }
 
     open fun generateButtonText(buttonID: Int): CharSequence {

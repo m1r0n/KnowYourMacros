@@ -1,14 +1,11 @@
 package com.example.miron.knowyourmacros
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Build
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import android.text.Html
 import android.text.Spanned
-import android.util.Log
 import android.view.View
 
 open class NominalChoiceActivity : ChoiceActivity() {

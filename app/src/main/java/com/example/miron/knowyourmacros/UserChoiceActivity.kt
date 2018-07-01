@@ -50,12 +50,21 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
                 "weightPreference" -> askForNumericPreference(Range(40,160), "Weight")
                 "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
-                "methodPreference" -> askForNominalPreference(Values.bmrTypes, Values.methodDescription , "Method")
+                "methodPreference" -> askForMethodPreference(Values.bmrTypes, Values.methodDescription , "Method")
                 "phasePreference" -> askForNominalPreference(Values.phases, Values.phasesDescription, "Phase")
                 "dietPreference" -> askForNominalPreference(options=Values.dietTypes, name="Diet")
             }
             currentPreference = preference!!
             return super.onPreferenceTreeClick(preferenceScreen, preference)
+        }
+
+        private fun askForMethodPreference(options: Array<String>, optionDescriptions: Array<String>, name: String) {
+            val intent = Intent(activity, MethodChoiceActivity::class.java)
+            intent.putExtra("fatSpecified", userPreferences.containsKey("fatPreference"))
+            intent.putExtra("options", options)
+            intent.putExtra("descriptions", optionDescriptions)
+            intent.putExtra("name", name)
+            startActivityForResult(intent, REQUEST_CODE)
         }
 
         private fun askForNumericPreference(range: Range, name: String) {
