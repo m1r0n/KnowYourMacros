@@ -30,6 +30,7 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
         setMainLayoutOrientationToVertical()
         addButtonsToMainLayout()
         setAppBarTitle()
+        setupActionBar()
 
         scrollView.addView(mainLayout)
         setContentView(scrollView)
@@ -108,6 +109,18 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
 
     open fun generateButtonText(buttonID: Int): CharSequence {
         return buttonID.toString()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun setupActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val intent = Intent()
+        setResult(Activity.RESULT_CANCELED, intent)
+        finish()
+        return true
     }
 
 }
