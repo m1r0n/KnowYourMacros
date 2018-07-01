@@ -11,7 +11,7 @@ import android.text.Spanned
 import android.util.Log
 import android.view.View
 
-class NominalChoiceActivity : ChoiceActivity() {
+open class NominalChoiceActivity : ChoiceActivity() {
 
     private lateinit var nominalOptions: Array<String>
     private lateinit var nominalOptionsDescriptions: Array<String>
