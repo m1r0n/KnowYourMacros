@@ -21,4 +21,7 @@
     <dimen name="pieHoleRadius" format="float" type="dimen">90.0</dimen>
     <dimen name="pieCenterTextOffset" format="float" type="dimen">35.0</dimen>
 
+    <dimen name="buttonTextSize">20sp</dimen>
+    <dimen name="buttonSelectedTextSize">25sp</dimen>
+
 </resources>

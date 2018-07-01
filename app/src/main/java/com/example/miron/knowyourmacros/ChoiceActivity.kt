@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -16,6 +19,7 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
     lateinit var scrollView: ScrollView
     lateinit var mainLayout: LinearLayout
     lateinit var pageTitle: String
+    var previousChoice: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,7 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
     }
 
     open fun initializeValuesFromIntent() {
+        previousChoice = intent.getIntExtra("previousID", -1)
     }
 
     private fun setAppBarTitle() {
@@ -72,8 +77,30 @@ open class ChoiceActivity: AppCompatActivity(), View.OnClickListener {
         button.tag = buttonID
         button.text = generateButtonText(buttonID)
         button.isEnabled = buttonCanBeClicked(buttonID)
+        button.setTextColor(chooseButtonColor(buttonID, button))
+        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, chooseButtonsTextSize(buttonID))
 
         return button
+    }
+
+    open fun chooseButtonsTextSize(buttonID: Int): Float {
+        return if (buttonID == previousChoice) {
+            resources.getDimension(R.dimen.buttonSelectedTextSize)
+        } else {
+            resources.getDimension(R.dimen.buttonTextSize)
+        }
+    }
+
+    private fun chooseButtonColor(buttonID: Int, button: Button): Int {
+        return if (button.isEnabled) {
+            if (buttonID == previousChoice) {
+                ResourcesCompat.getColor(resources, R.color.colorPrimaryDarkButton, null)
+            } else {
+                ResourcesCompat.getColor(resources, R.color.textColorPrimary, null)
+            }
+        } else {
+            ResourcesCompat.getColor(resources, R.color.summaryColor, null)
+        }
     }
 
     open fun buttonCanBeClicked(buttonID: Int): Boolean {

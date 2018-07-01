@@ -8,6 +8,7 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
@@ -27,6 +28,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
         private val REQUEST_CODE = 200
         private lateinit var currentPreference: Preference
+        private var currentPreferenceID: Int? = -1
         companion object {
             var userPreferences: HashMap<String, Answer> = HashMap()
         }
@@ -43,6 +45,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         }
 
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
+            currentPreferenceID = userPreferences[preference?.key]?.id
             when(preference?.key) {
                 "genderPreference" -> askForNominalPreference(options=Values.genders, name="Gender")
                 "agePreference" -> askForNumericPreference(Range(10,70), "Age")
@@ -64,6 +67,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             intent.putExtra("options", options)
             intent.putExtra("descriptions", optionDescriptions)
             intent.putExtra("name", name)
+            intent.putExtra("previousID", currentPreferenceID)
             startActivityForResult(intent, REQUEST_CODE)
         }
 
@@ -71,6 +75,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             val intent = Intent(activity, NumericalChoiceActivity::class.java)
             intent.putExtra("range", range)
             intent.putExtra("name", name)
+            intent.putExtra("previousID", currentPreferenceID)
             startActivityForResult(intent, REQUEST_CODE)
         }
 
@@ -79,6 +84,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             intent.putExtra("options", options)
             intent.putExtra("descriptions", optionDescriptions)
             intent.putExtra("name", name)
+            intent.putExtra("previousID", currentPreferenceID)
             startActivityForResult(intent, REQUEST_CODE)
         }
 

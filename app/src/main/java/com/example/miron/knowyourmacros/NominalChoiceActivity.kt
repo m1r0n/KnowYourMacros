@@ -14,6 +14,7 @@ open class NominalChoiceActivity : ChoiceActivity() {
     private lateinit var nominalOptionsDescriptions: Array<String>
 
     override fun initializeValuesFromIntent(){
+        super.initializeValuesFromIntent()
         val intent = intent
         nominalOptions = intent.getStringArrayExtra("options")
         nominalOptionsDescriptions = intent.getStringArrayExtra("descriptions")
@@ -55,5 +56,9 @@ open class NominalChoiceActivity : ChoiceActivity() {
         intent.putExtra("Answer", answer)
         setResult(Activity.RESULT_OK, intent)
         finish()
+    }
+
+    override fun chooseButtonsTextSize(buttonID: Int): Float {
+        return resources.getDimension(R.dimen.buttonTextSize)
     }
 }
