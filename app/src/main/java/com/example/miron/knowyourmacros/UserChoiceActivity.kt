@@ -8,7 +8,6 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
@@ -36,7 +35,21 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             addPaddingToView(resources.getDimension(R.dimen.fragment_padding).toInt())
+            refreshFragmentView()
             return view
+        }
+
+        private fun refreshFragmentView() {
+            val preferenceScreen = preferenceScreen
+            val prefCount = preferenceScreen.preferenceCount
+
+            for (i in 0 until prefCount) {
+                val preference = preferenceScreen.getPreference(i)
+                if (preference.key in userPreferences) {
+                    preference.widgetLayoutResource = R.layout.custom_checkbox_checked
+                    preference.summary = userPreferences[preference.key]!!.value
+                }
+            }
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
