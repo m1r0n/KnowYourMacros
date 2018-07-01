@@ -31,7 +31,7 @@ class NominalChoiceActivity : ChoiceActivity() {
     }
 
     override fun generateButtonText(buttonID: Int): CharSequence {
-        return if (nominalOptionsDescriptions.isEmpty()) {
+        return if (nominalOptionsDescriptions.isEmpty() || nominalOptionsDescriptions[buttonID] == "") {
             nominalOptions[buttonID]
         }
         else {
@@ -43,7 +43,6 @@ class NominalChoiceActivity : ChoiceActivity() {
     @SuppressWarnings("deprecation")
     private fun createHTMLString(buttonID: Int): Spanned {
         val color: String = String.format("#%06x", ContextCompat.getColor(this, R.color.summaryColor) and 0xffffff)
-        Log.i("DATADATA", color)
         val buttonText: String = nominalOptions[buttonID] + "<br/><small><font color=\"" + color + "\"> " + nominalOptionsDescriptions[buttonID] + "</font></small>"
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(buttonText, Html.FROM_HTML_MODE_LEGACY)

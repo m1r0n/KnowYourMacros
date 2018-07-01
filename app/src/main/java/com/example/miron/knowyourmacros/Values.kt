@@ -27,6 +27,7 @@ open class Values {
         private const val bmrKatch: String = "Katch-McArdle"
         private const val bmrKatchHybrid: String = "Katch-McArdle (Hybrid)"
         private const val bmrCunningham: String = "Cunningham"
+        private const val fatProcentRequired: String = "Requires fat percentage"
 
 
         //Phase
@@ -51,6 +52,7 @@ open class Values {
         val activityLevelsDescription: Array<String> = arrayOf(activityLevelSedentaryDescription, activityLevellightDescription,
                 activityLevelModerateDescription, activityLevelVeryActiveDescription, activityLevelExtremeDescription)
         val phasesDescription: Array<String> = arrayOf(phaseLosingDescription, phaseMaintainingDescription, phaseGainingDescription)
+        val methodDescription: Array<String> = arrayOf("", "", fatProcentRequired, fatProcentRequired, fatProcentRequired)
 
 
 

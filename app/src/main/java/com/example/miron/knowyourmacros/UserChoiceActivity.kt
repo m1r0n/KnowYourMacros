@@ -50,7 +50,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
                 "weightPreference" -> askForNumericPreference(Range(40,160), "Weight")
                 "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
-                "methodPreference" -> askForNominalPreference(options=Values.bmrTypes, name="Method")
+                "methodPreference" -> askForNominalPreference(Values.bmrTypes, Values.methodDescription , "Method")
                 "phasePreference" -> askForNominalPreference(Values.phases, Values.phasesDescription, "Phase")
                 "dietPreference" -> askForNominalPreference(options=Values.dietTypes, name="Diet")
             }
