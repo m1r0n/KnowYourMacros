@@ -8,7 +8,6 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
@@ -24,20 +23,96 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         setupActionBar()
     }
 
+    private fun setupFragmentManager() {
+        fragmentManager.beginTransaction().replace(android.R.id.content, MyPreferenceFragment()).commit()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun setupActionBar() {
+        if (pageWasVisitedBefore()) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        else {
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+        }
+    }
+
+    private fun pageWasVisitedBefore(): Boolean {
+        val intent = intent
+        return intent.getBooleanExtra("VisitingMarker", false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.navigation, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id) {
+            android.R.id.home -> {
+                val previousPreferences = MyPreferenceFragment.finalUserPreferences
+                restoreUserPreferences(previousPreferences)
+                finish()
+            }
+
+            R.id.preferences_done_button -> {
+                val userPreferences = MyPreferenceFragment.userPreferences
+                if(allUserPreferencesDataIsPresent(userPreferences)) {
+                    storeLastUserPreferences(userPreferences)
+                    showMacroSplitActivity(userPreferences)
+                }
+                else {
+                    showErrorToast()
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun restoreUserPreferences(previousPreferences: HashMap<String, Answer>) {
+        MyPreferenceFragment.userPreferences.putAll(previousPreferences)
+    }
+
+    private fun storeLastUserPreferences(userPreferences: HashMap<String, Answer>) {
+        MyPreferenceFragment.finalUserPreferences.putAll(userPreferences)
+    }
+
+    private fun showMacroSplitActivity(preferences: HashMap<String, Answer>) {
+        val intent = Intent(this, NavigationActivity::class.java)
+        intent.putExtra("preferences", preferences)
+        startActivity(intent)
+    }
+
+    private fun showErrorToast() {
+        val context = applicationContext
+        val text = Values.CompulsoryFieldsNotFilledError
+        val duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(context, text, duration)
+        toast.show()
+    }
+
+    private fun allUserPreferencesDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
+        return userPreferences.keys.containsAll(Values.compulsoryFields)
+    }
+
+
+
     class MyPreferenceFragment : PreferenceFragment() {
 
-        private val REQUEST_CODE = 200
-        private lateinit var currentPreference: Preference
-        private var currentPreferenceID: Int? = -1
         companion object {
             var userPreferences: HashMap<String, Answer> = HashMap()
             var finalUserPreferences: HashMap<String, Answer> = HashMap()
+            private val REQUEST_CODE = 200
+            private lateinit var currentPreference: Preference
+            private var currentPreferenceID: Int? = -1
         }
 
-        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-            val view = super.onCreateView(inflater, container, savedInstanceState)
-            addPaddingToView(resources.getDimension(R.dimen.fragment_padding).toInt())
-            return view
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            addPreferencesFromResource(R.xml.preferences)
+            refreshFragmentView()
         }
 
         private fun refreshFragmentView() {
@@ -53,16 +128,23 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             }
         }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.preferences)
-            refreshFragmentView()
+        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            val view = super.onCreateView(inflater, container, savedInstanceState)
+            addPaddingToView(resources.getDimension(R.dimen.fragment_padding).toInt())
+            return view
+        }
+
+        private fun addPaddingToView(padding: Int) {
+            if (view != null) {
+                val listView = view.findViewById(android.R.id.list) as ListView
+                listView.setPadding(padding,0,padding,0)
+            }
         }
 
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
             currentPreferenceID = userPreferences[preference?.key]?.id
             when(preference?.key) {
-                "genderPreference" -> askForNominalPreference(options=Values.genders, name="Gender")
+                "genderPreference" -> askForNominalPreference(options = Values.genders, name = "Gender")
                 "agePreference" -> askForNumericPreference(Range(10,70), "Age")
                 "activityPreference" -> askForNominalPreference(Values.activityLevels, Values.activityLevelsDescription, "Activity Level")
                 "heightPreference" -> askForNumericPreference(Range(130,220), "Height")
@@ -70,7 +152,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                 "fatPreference" -> askForNumericPreference(Range(1,50), "Fat %")
                 "methodPreference" -> askForMethodPreference(Values.bmrTypes, Values.methodDescription , "Method")
                 "phasePreference" -> askForNominalPreference(Values.phases, Values.phasesDescription, "Phase")
-                "dietPreference" -> askForNominalPreference(options=Values.dietTypes, name="Diet")
+                "dietPreference" -> askForNominalPreference(options = Values.dietTypes, name = "Diet")
             }
             currentPreference = preference!!
             return super.onPreferenceTreeClick(preferenceScreen, preference)
@@ -107,7 +189,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             super.onActivityResult(requestCode, resultCode, data)
 
             if (requestCode == REQUEST_CODE) {
-
                 if (resultCode == Activity.RESULT_OK) {
                     val userChoice: Answer = data.getSerializableExtra("Answer") as Answer
                     updateUserPreferencesMap(userChoice)
@@ -115,6 +196,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                     updateFragmentPage()
                 }
             }
+        }
+
+        private fun updateUserPreferencesMap(value: Answer) {
+            userPreferences[currentPreference.key] = value
         }
 
         private fun updateCurrentPreferenceSummary(userChoice: String) {
@@ -126,86 +211,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             fragmentManager.beginTransaction().detach(this).attach(this).commit()
         }
 
-        private fun updateUserPreferencesMap(value: Answer) {
-            userPreferences[currentPreference.key] = value
-        }
-
-        private fun addPaddingToView(padding: Int) {
-            if (view != null) {
-                val listView = view.findViewById(android.R.id.list) as ListView
-                listView.setPadding(padding,0,padding,0)
-            }
-        }
-    }
-
-    private fun setupFragmentManager() {
-        fragmentManager.beginTransaction().replace(android.R.id.content, MyPreferenceFragment()).commit()
-    }
-
-    @SuppressLint("InflateParams")
-    private fun setupActionBar() {
-        if (pageWasVisitedBefore()) {
-            Log.i("DATADATA", "HERE!!")
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
-        else {
-            supportActionBar?.setDisplayShowTitleEnabled(true)
-        }
-    }
-
-    private fun pageWasVisitedBefore(): Boolean {
-        val intent = intent
-        return intent.getBooleanExtra("VisitingMarker", false)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.navigation, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-
-        if (id == R.id.preferences_done_button) {
-            val userPreferences = MyPreferenceFragment.userPreferences
-            if(allUserPreferencesDataIsPresent(userPreferences)) {
-                storeLastUserPreferences(userPreferences)
-                showMacroSplitActivity(userPreferences)
-            }
-            else {
-                showErrorToast()
-            }
-
-            return true
-        }
-        else if (id == android.R.id.home) {
-            finish()
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun storeLastUserPreferences(userPreferences: HashMap<String, Answer>) {
-        MyPreferenceFragment.finalUserPreferences.putAll(userPreferences)
-    }
-
-    private fun showMacroSplitActivity(preferences: HashMap<String, Answer>) {
-        val intent = Intent(this, NavigationActivity::class.java)
-        intent.putExtra("preferences", preferences)
-        startActivity(intent)
-    }
-
-    private fun showErrorToast() {
-        val context = applicationContext
-        val text = Values.CompulsoryFieldsNotFilledError
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(context, text, duration)
-        toast.show()
-    }
-
-    private fun allUserPreferencesDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
-        return userPreferences.keys.containsAll(Values.compulsoryFields)
     }
 
 }
