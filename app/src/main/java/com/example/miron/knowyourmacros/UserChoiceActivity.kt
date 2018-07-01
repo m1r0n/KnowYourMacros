@@ -8,6 +8,7 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
@@ -30,12 +31,12 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         private var currentPreferenceID: Int? = -1
         companion object {
             var userPreferences: HashMap<String, Answer> = HashMap()
+            var finalUserPreferences: HashMap<String, Answer> = HashMap()
         }
 
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             addPaddingToView(resources.getDimension(R.dimen.fragment_padding).toInt())
-            refreshFragmentView()
             return view
         }
 
@@ -45,9 +46,9 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
             for (i in 0 until prefCount) {
                 val preference = preferenceScreen.getPreference(i)
-                if (preference.key in userPreferences) {
+                if (preference.key in finalUserPreferences) {
                     preference.widgetLayoutResource = R.layout.custom_checkbox_checked
-                    preference.summary = userPreferences[preference.key]!!.value
+                    preference.summary = finalUserPreferences[preference.key]!!.value
                 }
             }
         }
@@ -55,6 +56,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.preferences)
+            refreshFragmentView()
         }
 
         override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
@@ -142,7 +144,18 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
     @SuppressLint("InflateParams")
     private fun setupActionBar() {
-        supportActionBar?.setDisplayShowTitleEnabled(true)
+        if (pageWasVisitedBefore()) {
+            Log.i("DATADATA", "HERE!!")
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        else {
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+        }
+    }
+
+    private fun pageWasVisitedBefore(): Boolean {
+        val intent = intent
+        return intent.getBooleanExtra("VisitingMarker", false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -157,6 +170,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         if (id == R.id.preferences_done_button) {
             val userPreferences = MyPreferenceFragment.userPreferences
             if(allUserPreferencesDataIsPresent(userPreferences)) {
+                storeLastUserPreferences(userPreferences)
                 showMacroSplitActivity(userPreferences)
             }
             else {
@@ -165,8 +179,15 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
             return true
         }
+        else if (id == android.R.id.home) {
+            finish()
+        }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun storeLastUserPreferences(userPreferences: HashMap<String, Answer>) {
+        MyPreferenceFragment.finalUserPreferences.putAll(userPreferences)
     }
 
     private fun showMacroSplitActivity(preferences: HashMap<String, Answer>) {

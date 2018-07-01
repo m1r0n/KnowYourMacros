@@ -160,6 +160,7 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
             R.id.preferences -> {
                 val intent = Intent(this, UserChoiceActivity::class.java)
+                intent.putExtra("VisitingMarker", true)
                 startActivity(intent)
             }
         }
