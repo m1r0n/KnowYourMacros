@@ -20,6 +20,8 @@
     <string name="activity_level_summary">How do you rank your daily activity level</string>
     <string name="optional_field">Optional</string>
     <string name="method_summary">Used to calculate TDEE (optional)</string>
+    <string name="weight_summary">In kg</string>
+    <string name="height_summary">In cm</string>
     <string name="title_activity_user_choice">UserChoiceActivity</string>
 
     <string name="proteins">Proteins:</string>

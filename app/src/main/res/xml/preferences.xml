@@ -29,6 +29,7 @@
         android:key="heightPreference"
         android:defaultValue="false"
         android:title="@string/height"
+        android:summary="@string/height_summary"
         android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
@@ -36,6 +37,7 @@
         android:key="weightPreference"
         android:defaultValue="false"
         android:title="@string/weight"
+        android:summary="@string/weight_summary"
         android:widgetLayout="@layout/custom_checkbox_unchecked" />
 
     <CheckBoxPreference
