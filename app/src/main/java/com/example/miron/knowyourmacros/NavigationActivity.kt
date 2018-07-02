@@ -170,9 +170,6 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.macros -> {
-
-            }
             R.id.preferences -> {
                 val intent = Intent(this, UserChoiceActivity::class.java)
                 intent.putExtra("VisitingMarker", true)
@@ -183,4 +180,5 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
 }

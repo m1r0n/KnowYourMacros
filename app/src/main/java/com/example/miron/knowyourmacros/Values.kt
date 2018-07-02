@@ -43,7 +43,7 @@ open class Values {
         private const val dietModerateCarb: String = "Moderate Carbs"
         private const val dietHighCarb: String = "Higher Carbs"
 
-        val genders: Array<String> = arrayOf(genderMale, genderFemale)
+        val genders: Array<String> = arrayOf(genderFemale, genderMale)
         val activityLevels: Array<String> = arrayOf(activityLevelSedentary, activityLevellight, activityLevelModerate, activityLevelVeryActive, activityLevelExtreme)
         val bmrTypes: Array<String> = arrayOf(bmrHarrisBenedict, bmrMifflin, bmrKatch, bmrKatchHybrid, bmrCunningham)
         val phases: Array<String> = arrayOf(phaseLosing, phaseMaintaining, phaseGaining)
@@ -58,7 +58,7 @@ open class Values {
 
         val compulsoryFields: Collection<String> = arrayOf("genderPreference", "activityPreference", "dietPreference", "agePreference", "heightPreference", "weightPreference", "phasePreference").toList()
 
-        const val CompulsoryFieldsNotFilledError = "Please fill all compulsory fields!"
+        const val pleaseWaitMessage = "Please wait!"
 
         const val api_url: String = "http://know-your-macros.herokuapp.com/macros"
     }
