@@ -8,6 +8,7 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import android.util.Log
 import android.view.*
 import android.widget.ListView
 import android.widget.Toast
@@ -47,6 +48,21 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val userPreferences = MyPreferenceFragment.userPreferences
+        val finalUserPreferences = MyPreferenceFragment.finalUserPreferences
+        val doneButton = menu.findItem(R.id.preferences_done_button)
+
+        doneButton.isEnabled = allUserPreferencesDataIsPresent(userPreferences) && userPreferences != finalUserPreferences
+        if (doneButton.isEnabled) {
+            doneButton.icon = resources.getDrawable(R.drawable.ic_done_white_24, null)
+        }
+        else {
+            doneButton.icon = resources.getDrawable(R.drawable.ic_done_grey, null)
+        }
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when(id) {
@@ -58,13 +74,8 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
 
             R.id.preferences_done_button -> {
                 val userPreferences = MyPreferenceFragment.userPreferences
-                if(allUserPreferencesDataIsPresent(userPreferences)) {
                     storeLastUserPreferences(userPreferences)
                     showMacroSplitActivity(userPreferences)
-                }
-                else {
-                    showErrorToast()
-                }
                 return true
             }
         }
@@ -83,14 +94,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         val intent = Intent(this, NavigationActivity::class.java)
         intent.putExtra("preferences", preferences)
         startActivity(intent)
-    }
-
-    private fun showErrorToast() {
-        val context = applicationContext
-        val text = Values.CompulsoryFieldsNotFilledError
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(context, text, duration)
-        toast.show()
     }
 
     private fun allUserPreferencesDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
@@ -194,6 +197,7 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
                     updateUserPreferencesMap(userChoice)
                     updateCurrentPreferenceSummary(userChoice.value)
                     updateFragmentPage()
+                    updateDoneButton()
                 }
             }
         }
@@ -209,6 +213,10 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
         private fun updateFragmentPage() {
             currentPreference.widgetLayoutResource = R.layout.custom_checkbox_checked
             fragmentManager.beginTransaction().detach(this).attach(this).commit()
+        }
+
+        private fun updateDoneButton() {
+            activity.invalidateOptionsMenu()
         }
 
     }
