@@ -73,7 +73,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             }
 
             R.id.preferences_done_button -> {
-                showWaitingMessage()
                 val userPreferences = MyPreferenceFragment.userPreferences
                     storeLastUserPreferences(userPreferences)
                     showMacroSplitActivity(userPreferences)
@@ -81,14 +80,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showWaitingMessage() {
-        val context = applicationContext
-        val text = Values.pleaseWaitMessage
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(context, text, duration)
-        toast.show()
     }
 
     private fun restoreUserPreferences(previousPreferences: HashMap<String, Answer>) {
