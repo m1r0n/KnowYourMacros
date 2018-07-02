@@ -44,7 +44,7 @@
         android:defaultValue="false"
         android:title="@string/fat"
         android:summary="@string/optional_field"
-        android:widgetLayout="@layout/custom_checkbox_unchecked" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked_optional" />
 
     <CheckBoxPreference
         android:id="@+id/methodPreference"
@@ -52,7 +52,7 @@
         android:defaultValue="false"
         android:title="@string/method"
         android:summary="@string/method_summary"
-        android:widgetLayout="@layout/custom_checkbox_unchecked" />
+        android:widgetLayout="@layout/custom_checkbox_unchecked_optional" />
 
     <CheckBoxPreference
         android:id="@+id/phasePreference"

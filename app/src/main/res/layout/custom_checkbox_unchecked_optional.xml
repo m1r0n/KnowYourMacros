@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/circle_checkbox_unselected"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:button="@drawable/ic_circle_unselected_optional"
+        android:clickable="false"
+        android:focusable="false" />
+
+</android.support.constraint.ConstraintLayout>
