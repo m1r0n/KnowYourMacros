@@ -7,10 +7,10 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -26,6 +26,7 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     private lateinit var macroSplit: HashMap<String, Double>
     private lateinit var pieChart: PieChart
+    private var backPressed: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +46,25 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    private fun initializeTextViews() {
-        val proteinText: TextView = findViewById(R.id.tv_protein_value)
-        val carbText: TextView = findViewById(R.id.tv_carbs_value)
-        val fatText: TextView = findViewById(R.id.tv_fats_value)
+    private fun initializeValuesFromIntent() {
+        val intent: Intent = intent
+        val preferences: HashMap<String, Answer> = intent.getSerializableExtra("preferences") as HashMap<String, Answer>
+        macroSplit = makeAPIRequest(preferences)
 
-        proteinText.text = macroSplit["protein"].toString()
-        carbText.text = macroSplit["carbs"].toString()
-        fatText.text = macroSplit["fats"].toString()
+
+        //Here are some random values for testing this activity
+        /*
+        macroSplit = HashMap()
+        macroSplit["calories"] = 2450.0
+        macroSplit["protein"] = 150.0
+        macroSplit["fats"] = 100.0
+        macroSplit["carbs"] = 250.0
+        */
+    }
+
+    private fun makeAPIRequest(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
+        val requestMaker = RequestMaker(Values.api_url, userPreferences)
+        return requestMaker.execute("").get()
     }
 
     private fun createChart() {
@@ -109,33 +121,36 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         legend.isEnabled = false
     }
 
-    private fun initializeValuesFromIntent() {
-        val intent: Intent = intent
-        val preferences: HashMap<String, Answer> = intent.getSerializableExtra("preferences") as HashMap<String, Answer>
-        macroSplit = makeAPIRequest(preferences)
+    private fun initializeTextViews() {
+        val proteinText: TextView = findViewById(R.id.tv_protein_value)
+        val carbText: TextView = findViewById(R.id.tv_carbs_value)
+        val fatText: TextView = findViewById(R.id.tv_fats_value)
 
-
-        //Here are some random values for testing this activity
-        /*
-        macroSplit = HashMap()
-        macroSplit["calories"] = 2450.0
-        macroSplit["protein"] = 150.0
-        macroSplit["fats"] = 100.0
-        macroSplit["carbs"] = 250.0
-        */
+        proteinText.text = macroSplit["protein"].toString()
+        carbText.text = macroSplit["carbs"].toString()
+        fatText.text = macroSplit["fats"].toString()
     }
 
-    private fun makeAPIRequest(userPreferences: HashMap<String, Answer>): HashMap<String, Double> {
-        val requestMaker = RequestMaker(Values.api_url, userPreferences)
-        return requestMaker.execute("").get()
-    }
-
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+    override fun onBackPressed() = if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        drawer_layout.closeDrawer(GravityCompat.START)
+    } else {
+        if (backPressedSecondTime()){
+            closeApp()
         }
+        else{
+            Toast.makeText(baseContext, "Press once again to exit", Toast.LENGTH_SHORT).show()
+            backPressed = System.currentTimeMillis()
+        }
+    }
+
+    private fun backPressedSecondTime(): Boolean {
+        return backPressed + 2000 > System.currentTimeMillis()
+    }
+
+    private fun closeApp() {
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -156,7 +171,7 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.macros -> {
-                // Handle the camera action
+
             }
             R.id.preferences -> {
                 val intent = Intent(this, UserChoiceActivity::class.java)
