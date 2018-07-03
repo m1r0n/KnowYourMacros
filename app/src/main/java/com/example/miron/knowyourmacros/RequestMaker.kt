@@ -1,7 +1,6 @@
 package com.example.miron.knowyourmacros
 
 import android.os.AsyncTask
-import android.util.Log
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.HashMap
@@ -17,8 +16,6 @@ class RequestMaker (basicURL: String, urlParameters: HashMap<String, Answer>): A
 
     init {
         try {
-            Log.i("DATADATA", createURLFromParameters(basicURL, urlParameters))
-
             this.url = URL(createURLFromParameters(basicURL, urlParameters))
         } catch (e: MalformedURLException) {
             e.printStackTrace()
