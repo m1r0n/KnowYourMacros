@@ -1,4 +1,4 @@
-package com.example.miron.knowyourmacros
+package com.macrocalculator.miron.knowyourmacros
 
 class MethodChoiceActivity: NominalChoiceActivity() {
 

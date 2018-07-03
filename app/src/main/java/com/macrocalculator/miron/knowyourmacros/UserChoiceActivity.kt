@@ -1,4 +1,4 @@
-package com.example.miron.knowyourmacros
+package com.macrocalculator.miron.knowyourmacros
 
 import android.annotation.SuppressLint
 import android.app.Activity

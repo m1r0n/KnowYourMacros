@@ -1,4 +1,4 @@
-package com.example.miron.knowyourmacros
+package com.macrocalculator.miron.knowyourmacros
 
 import android.content.res.Configuration
 import android.os.Bundle

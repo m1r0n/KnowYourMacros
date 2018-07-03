@@ -1,4 +1,4 @@
-package com.example.miron.knowyourmacros
+package com.macrocalculator.miron.knowyourmacros
 
 import android.os.AsyncTask
 import java.net.MalformedURLException
