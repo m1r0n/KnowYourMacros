@@ -8,10 +8,8 @@ import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.util.Log
 import android.view.*
 import android.widget.ListView
-import android.widget.Toast
 import kotlin.collections.HashMap
 
 
