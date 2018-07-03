@@ -1,42 +1,27 @@
 package com.example.miron.knowyourmacros
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.Preference
 
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.*
 import android.widget.ListView
 import kotlin.collections.HashMap
-import android.widget.Toast
-import android.support.annotation.NonNull
-
 
 
 
 @SuppressLint("ExportedPreferenceActivity")
 class UserChoiceActivity : AppCompatPreferenceActivity() {
 
-    private val INTERNET_PERMISSION_CODE = 1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkForPermission()
+        //checkForPermission()
         setupFragmentManager()
         setupActionBar()
-    }
-
-    private fun checkForPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            requestInternetPermission()
-        }
     }
 
     private fun setupFragmentManager() {
@@ -114,22 +99,6 @@ class UserChoiceActivity : AppCompatPreferenceActivity() {
     private fun allUserPreferencesDataIsPresent(userPreferences: HashMap<String, Answer>): Boolean {
         return userPreferences.keys.containsAll(Values.compulsoryFields)
     }
-
-
-    private fun requestInternetPermission() {
-        ActivityCompat.requestPermissions(this,  arrayOf(Manifest.permission.INTERNET), INTERNET_PERMISSION_CODE)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == INTERNET_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
 
 
     class MyPreferenceFragment : PreferenceFragment() {
